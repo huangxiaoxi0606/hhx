@@ -1,0 +1,49 @@
+.min-div{
+    /*padding-left: 255px;*/
+    /*padding-right: 255px;*/
+    /*padding-top: 50px;*/
+    padding: 2% 12% 0px 12%;
+
+}
+/*.page-div{*/
+/*    padding: 0 0 0 30%;*/
+/*}*/
+.url-button .popover{
+    max-width: none;
+}
+
+.daily-text{
+    padding-left: 6px;
+}
+.daily-collocation{
+    margin-left: 2%;
+}
+.daily-img{
+    display: inline;
+    float:left;
+    max-width:40%;
+}
+
+.daily-img-list {
+    margin-left: 4%;
+    overflow:hidden
+}
+.daily-list {
+    margin-left: 4%;
+    margin-top: 10px;
+    width:79%;
+
+}
+.daily-title{
+    margin-left: 4%;
+    width:79%;
+    margin-top: 10px;
+}
+
+.daily-weibo-img{
+    display: inline;
+    float:left;
+    width:auto;
+}
+
+
