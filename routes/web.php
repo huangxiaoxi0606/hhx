@@ -11,15 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 //Route::group([], function (){
 //    Route::post('/', '\Controller@')->name('');
 //});
-
-Route::any('/texts', 'textController@index');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::any('/', 'textController@index');
 Route::get('/basic', 'Basic\BasicController@getd');
 Route::post('/uploadFiles', 'UploadsController@uploadImg');
 Route::get('/top250','Home\DoubanController@top250');

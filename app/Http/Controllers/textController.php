@@ -32,9 +32,13 @@ class textController extends Controller
 //
 //
 //    }
-        public function index(Request $request){
-            Log::info(json_encode($request->all()));
-//            $daily = Daily::orderBy('id','desc')->first();
+    public function index(Request $request)
+    {
+        $daily = Daily::orderBy('id','desc')->first()->money;
+
+        dd('2');
+        Log::info(json_encode($request->all()));
+//
 //            $direction_logs = DirectionLog::where('daily_id',$daily->id)->get();
 //            $interest_logs = InterestLog::where('daily_id',$daily->id)->get();
 //            $yesterDate = Carbon::yesterday()->toDateString();
@@ -48,7 +52,7 @@ class textController extends Controller
 //                'yesterDate'=>$yesterDate,
 //            ];
 //            return view('Emails.Daily',$data);
-        }
+    }
 
 
 }
