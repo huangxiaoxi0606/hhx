@@ -86,6 +86,19 @@ return [
             'cdn_key'         => env('COSV5_CDN_KEY'),
             'encrypt'         => env('COSV5_ENCRYPT', false),
         ],
+        'qiniu' => [
+            'driver'  => 'qiniu',
+            'domains' => [
+                'default'   => env('QINIUYUN_DEFAULT'), //你的七牛域名
+                'https'     => 'dn-yourdomain.qbox.me',         //你的HTTPS域名
+                'custom'    => 'static.abc.com',                //你的自定义域名
+            ],
+            'access_key'=>  env('QINIUYUN_AK'),  //AccessKey
+            'secret_key'=>  env('QINIUYUN_SK'),  //SecretKey
+            'bucket'    => env('QINIUYUN_BUCKET'),  //Bucket名字
+            'notify_url'=> '',  //持久化处理回调地址
+            'url'       => 'http://q285zjk8c.bkt.clouddn.com/',  // 填写文件访问根url
+        ],
 
     ],
 

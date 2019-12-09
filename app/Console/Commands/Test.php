@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use App\Handlers\DailyHandler;
 use App\Models\DirectionLog;
 use App\Models\InterestLog;
+use App\Models\WeiboPics;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class Test extends Command
 {
@@ -41,7 +43,19 @@ class Test extends Command
     public function handle()
     {
 //        DailyHandler::text();
-        $data = "兴趣,2,3,shuoming,1";
-        InterestLog::parseContent($data);
+//        $data = "兴趣,2,3,shuoming,1";
+//        InterestLog::parseContent($data);
+        $disk = Storage::disk('qiniu');
+// create a file
+
+        $weibo_pics = WeiboPics::where('id', '>=', '6481')->pluck('url')->toArray();
+        $arrs = array_chunk($weibo_pics, 50, true);
+        foreach ($arrs as $ar) {
+            foreach ($ar as $pic) {
+                $p = Storage::get($pic);
+                $disk->put($pic, $p);
+            }
+        }
+//        dd('963');
     }
 }
