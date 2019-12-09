@@ -3,9 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Handlers\DailyHandler;
+use App\Models\DbMovie;
 use App\Models\DirectionLog;
 use App\Models\InterestLog;
 use App\Models\WeiboPics;
+use App\Models\WeiboUser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -48,14 +50,16 @@ class Test extends Command
         $disk = Storage::disk('qiniu');
 // create a file
 
-        $weibo_pics = WeiboPics::where('id', '>=', '6481')->pluck('url')->toArray();
-        $arrs = array_chunk($weibo_pics, 50, true);
+        $weibo_pics = \App\Models\DbMusicTop::pluck('img')->toArray();
+        $arrs = array_chunk($weibo_pics, 20);
         foreach ($arrs as $ar) {
             foreach ($ar as $pic) {
                 $p = Storage::get($pic);
                 $disk->put($pic, $p);
             }
         }
-//        dd('963');
+
+
+        dd('961');
     }
 }
