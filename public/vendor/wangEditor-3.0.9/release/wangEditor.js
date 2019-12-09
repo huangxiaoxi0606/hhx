@@ -653,7 +653,7 @@ var config = {
     },
 
     // 默认上传图片 max size: 5M
-    uploadImgMaxSize: 5 * 1024 * 1024,
+    uploadImgMaxSize: 15 * 1024 * 1024,
 
     // 配置一次最多上传几个图片
     // uploadImgMaxLength: 5,
@@ -683,7 +683,7 @@ var config = {
     // 自定义上传图片超时时间 ms
     uploadImgTimeout: 10000,
 
-    // 上传图片 hook 
+    // 上传图片 hook
     uploadImgHooks: {
         // customInsert: function (insertLinkImg, result, editor) {
         //     console.log('customInsert')
