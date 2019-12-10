@@ -10,11 +10,12 @@ namespace App\Handlers;
 
 use Illuminate\Support\Facades\Log;
 
-class DamaiHandler{
+class DamaiHandler
+{
 
-    static $Common_Url = "https://search.damai.cn/searchajax.html?keyword=";
-    static $Midd_Common ="&currPage=1&pageSize=";
-    static $Default_PageSize = 30;
+    public static $Common_Url = "https://search.damai.cn/searchajax.html?keyword=";
+    public static $Midd_Common = "&currPage=1&pageSize=";
+    public static $Default_PageSize = 30;
 
     /**
      * 获取html
@@ -22,11 +23,12 @@ class DamaiHandler{
      * @return bool|mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    static public function getHtml($url){
+    public static function getHtml($url)
+    {
         $client = new \GuzzleHttp\Client();
         $res = $client->request('GET', $url);
-        if($res->getStatusCode()=='200'){
-            return json_decode($res->getBody(),true);
+        if ($res->getStatusCode() == '200') {
+            return json_decode($res->getBody(), true);
         }
         return false;
     }
@@ -37,8 +39,9 @@ class DamaiHandler{
      * @return int
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    static public function getDataCount($url){
-        if(self::getHtml($url)){
+    public static function getDataCount($url)
+    {
+        if (self::getHtml($url)) {
             return self::getHtml($url)["pageData"]["maxTotalResults"];
         }
         return 0;
@@ -50,8 +53,9 @@ class DamaiHandler{
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    static public function getDataAll($url){
-        if(self::getHtml($url)){
+    public static function getDataAll($url)
+    {
+        if (self::getHtml($url)) {
             return self::getHtml($url)["pageData"]["resultData"];
         }
     }
@@ -62,38 +66,40 @@ class DamaiHandler{
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    static public function getUrl($name ="田馥甄"){
-        $url = self::$Common_Url.$name.self::$Midd_Common.self::$Default_PageSize;
+    public static function getUrl($name = "田馥甄")
+    {
+        $url = self::$Common_Url . $name . self::$Midd_Common . self::$Default_PageSize;
         $count = self::getDataCount($url);
-        if($count ==0){
+        if ($count == 0) {
             return '';
         }
-        $url_data = self::$Common_Url.$name.self::$Midd_Common.$count;
-        return  self::getDataAll($url_data);
+        $url_data = self::$Common_Url . $name . self::$Midd_Common . $count;
+        return self::getDataAll($url_data);
     }
-
 
 
     /**
      * 保存数据库
      * @param $datas
      */
-    static public function saveMysql($data){
+    public static function saveMysql($data)
+    {
         $damai = new \App\Models\Damai();
-        $damai ->saveData($data);
+        $damai->saveData($data);
     }
 
     /**
      * 定时任务
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    static public function carbonGet(){
+    public static function carbonGet()
+    {
 
-        $names = ["田馥甄","戴佩妮","杨千嬅","吴青峰"];
-        foreach($names as $name){
+        $names = ["田馥甄", "戴佩妮", "杨千嬅", "吴青峰"];
+        foreach ($names as $name) {
             $datas = self::getUrl($name);
-            if($datas){
-                foreach ($datas as $data){
+            if ($datas) {
+                foreach ($datas as $data) {
                     $data['actors'] = $name;
                     self::saveMysql($data);
 //                    self::saveRedis($data,$name);
@@ -103,7 +109,7 @@ class DamaiHandler{
             }
         }
         unset($names);
-        Log::info(date('Y-m-d').'damai its ok');
+        Log::info(date('Y-m-d') . 'damai its ok');
     }
 
 }

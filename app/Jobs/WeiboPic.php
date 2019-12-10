@@ -35,16 +35,18 @@ class WeiboPic implements ShouldQueue
     {
         //微博表中图片更新
         $num = 0;
+        $arr = [];
         Weibo::whereNull('updated_at')->whereNotNull('thumbnail_pic')->select('id', 'thumbnail_pic')->chunk(100, function ($weibos) use ($num) {
             foreach ($weibos as $weibo) {
                 if ($weibo->thumbnail_pic) {
                     $url = $weibo->thumbnail_pic;
                     $num = $num + 1;
                     $e = time() . $num . '.jpg';
-                    $filename = '/storage/weibo_pic_h/' . $e;
+                    $filename = '/storage/weibo_pic_t/' . $e;
                     $client = new Client(['verify' => false]);  //忽略SSL错误
-                    $data[$weibo->id] = 'weibo_pic_h/' . $e;
+                    $data[$weibo->id] = 'weibo_pic_t/' . $e;
                     $client->get($url, ['save_to' => public_path($filename)]);
+                    $arr[] = $filename;
                 }
             }
             if (!empty($data)) {
@@ -54,7 +56,6 @@ class WeiboPic implements ShouldQueue
                     $we->save();
                 }
             }
-
         });
         WeiboPics::whereNull('updated_at')->select('id', 'url')->chunk(100, function ($weiboPic) use ($num) {
             foreach ($weiboPic as $pic) {
@@ -62,14 +63,17 @@ class WeiboPic implements ShouldQueue
                     $url = $pic->url;
                     $num = $num + 1;
                     $e = time() . $num . '.jpg';
-                    $filename = 'storage/weibo_pic_p/' . $e;
+                    $filename = 'storage/weibo_pic_f/' . $e;
                     $client = new Client(['verify' => false]);  //忽略SSL错误
                     $client->get($url, ['save_to' => public_path($filename)]);
-                    $pic->url = 'weibo_pic_p/' . $e;
+                    $pic->url = 'weibo_pic_f/' . $e;
                     $pic->save();
-
+                    $arr[] = $filename;
                 }
             }
         });
+        if (count($arr) > 0) {
+            //存入七牛云
+        }
     }
 }

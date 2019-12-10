@@ -31,8 +31,9 @@ class WeiboUserPic implements ShouldQueue
      */
     public function handle()
     {
+        $arr = [];
         //用户头像以及封面
-        $weiboUsers = WeiboUser::select('id', 'avatar_hd', 'cover_image_phone')->get();
+        $weiboUsers = WeiboUser::whereNull('updated_at')->select('id', 'avatar_hd', 'cover_image_phone')->get();
         $num = 0;
         $num2 = 100;
         foreach ($weiboUsers as $user) {
@@ -40,20 +41,24 @@ class WeiboUserPic implements ShouldQueue
                 $url = $user->avatar_hd;
                 $num = $num + 1;
                 $e = time() . $num . '.jpg';
-                $filename = 'storage/weibo_user_h/' . $e;
+                $filename = 'storage/weibo_user_t/' . $e;
                 $client = new Client(['verify' => false]);  //忽略SSL错误
                 $client->get($url, ['save_to' => public_path($filename)]);
-
+                $arr[] = $filename;
                 $url2 = $user->cover_image_phone;
                 $num2 = $num2 - 1;
                 $e2 = time() . $num2 . '.jpg';
-                $filename2 = 'storage/weibo_user_h/' . $e2;
+                $filename2 = 'storage/weibo_user_t/' . $e2;
                 $client = new Client(['verify' => false]);  //忽略SSL错误
                 $client->get($url2, ['save_to' => public_path($filename2)]);
-                $user->avatar_hd = 'weibo_user_h/' . $e;
-                $user->cover_image_phone = 'weibo_user_h/' . $e2;
+                $user->avatar_hd = 'weibo_user_t/' . $e;
+                $user->cover_image_phone = 'weibo_user_t/' . $e2;
                 $user->save();
+                $arr[] = $filename2;
             }
+        }
+        if (count($arr) > 0) {
+            //存入七牛云
         }
     }
 }
