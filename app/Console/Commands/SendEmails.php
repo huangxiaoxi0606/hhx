@@ -40,20 +40,20 @@ class SendEmails extends Command
      */
     public function handle()
     {
-//        $content = '这是一封的测试邮件.';
-//        $toMail = 'hhx06@outlook.com';
-//        Mail::raw($content, function ($message) use ($toMail) {
-//            $message->subject('[ notice ] 会收到提醒的吗 - ' .date('Y-m-d H:i:s'));
-//            $message->to($toMail);
-//        });
-        $view = 'Emails.Daily';
-        $data = DailyHandler::getData();
-        $toMail = 'hhx06@outlook.com';
-        Mail::send($view,$data ,function ($message) use ($toMail) {
-            $message->subject('[ daily] 日报 - ' .date('Y-m-d'));
+        $content = '这是一封的测试邮件.';
+        $toMail = '1350585339@qq.com';
+        Mail::raw($content, function ($message) use ($toMail) {
+            $message->subject('[ notice ] 会收到提醒的吗 - ' .date('Y-m-d H:i:s'));
             $message->to($toMail);
         });
-        Log::info('its ok');
-
+//        $view = 'Emails.Daily';
+//        $data = DailyHandler::getData();
+//        $toMail = 'hhx06@outlook.com';
+//        Mail::send($view, $data, function ($message) use ($toMail) {
+//            $message->subject('[ daily] 日报 - ' . date('Y-m-d'));
+//            $message->to($toMail);
+//        });
+//        Log::info('its ok');
+        dd('end');
     }
 }
