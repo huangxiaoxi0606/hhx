@@ -103,11 +103,6 @@ class WeChatController extends Controller
         });
 
         return $app->server->serve();
-//        $app = app('wechat.official_account');
-//        $app->server->push(function ($message) {
-//            return "欢迎关注 overtrue！";
-//        });
-//        return $app->server->serve();
     }
 
 
