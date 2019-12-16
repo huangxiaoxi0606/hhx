@@ -121,7 +121,10 @@ class DirectionLogController extends Controller
             $str2 = '<a href=' . $url2 . '><button style="font-size: 10px" type="button" class="btn btn-success">兴趣Log</button></a>';
             $tools->append($str2);
         });
-
+        $grid->filter(function ($filter) {
+            // 在这里添加字段过滤器
+            $filter->equal('direction_id', '方向')->select(Direction::getData());
+        });
 
         return $grid;
     }
