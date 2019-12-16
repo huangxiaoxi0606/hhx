@@ -9,6 +9,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class WeiboUserPic implements ShouldQueue
 {
@@ -54,11 +56,24 @@ class WeiboUserPic implements ShouldQueue
                 $user->avatar_hd = 'weibo_user_t/' . $e;
                 $user->cover_image_phone = 'weibo_user_t/' . $e2;
                 $user->save();
-                $arr[] = $filename2;
+                $arr[] = $user->avatar_hd;
+                $arr[] = $user->cover_image_phone;
             }
         }
         if (count($arr) > 0) {
+            Log::info("weiboupic s");
+
             //存入七牛云
+            $disk = Storage::disk('qiniu');
+            $arrs = array_chunk($arr, 20);
+            foreach ($arrs as $ar) {
+                foreach ($ar as $pic) {
+                    $p = Storage::get($pic);
+                    $disk->put($pic, $p);
+                }
+            }
+            Log::info("weiboupic e");
+
         }
     }
 }

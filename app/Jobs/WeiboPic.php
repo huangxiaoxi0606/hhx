@@ -10,6 +10,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class WeiboPic implements ShouldQueue
@@ -46,7 +48,7 @@ class WeiboPic implements ShouldQueue
                     $client = new Client(['verify' => false]);  //忽略SSL错误
                     $data[$weibo->id] = 'weibo_pic_t/' . $e;
                     $client->get($url, ['save_to' => public_path($filename)]);
-                    $arr[] = $filename;
+                    $arr[] = $data[$weibo->id];
                 }
             }
             if (!empty($data)) {
@@ -68,11 +70,21 @@ class WeiboPic implements ShouldQueue
                     $client->get($url, ['save_to' => public_path($filename)]);
                     $pic->url = 'weibo_pic_f/' . $e;
                     $pic->save();
-                    $arr[] = $filename;
+                    $arr[] = $pic->url;
                 }
             }
         });
         if (count($arr) > 0) {
+            Log::info("weibopic start");
+            $disk = Storage::disk('qiniu');
+            $arrs = array_chunk($arr, 20);
+            foreach ($arrs as $ar) {
+                foreach ($ar as $pic) {
+                    $p = Storage::get($pic);
+                    $disk->put($pic, $p);
+                }
+            }
+            Log::info("weibopic end");
             //存入七牛云
         }
     }
