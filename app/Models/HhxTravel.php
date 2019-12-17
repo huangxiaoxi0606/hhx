@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HhxTravel extends Modele
+class HhxTravel extends Model
 {
     public static function boot()
     {
