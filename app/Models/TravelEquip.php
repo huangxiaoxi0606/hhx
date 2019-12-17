@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TravilEquip extends Model
+class TravelEquip extends Model
 {
     //
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 
 class DirectionLog extends Model
 {
@@ -29,10 +29,10 @@ class DirectionLog extends Model
             }
             if ($model->direction_id == 6 && strpos($model->illustration, '票') == false) {
                 $das['direction_id'] = $model->id;
-                $das['hhx_travil_id'] = HhxTravil::query()->max('id');
+                $das['hhx_travel_id'] = HhxTravel::query()->max('id');
                 $das['created_at'] = Carbon::now();
-                DB::table('travil_bills')->insert($das);
-                DB::table('hhx_travils')->where('id', $das['hhx_travil_id'])->increment('money', $model->money);
+                DB::table('travel_bills')->insert($das);
+                DB::table('hhx_travels')->where('id', $das['hhx_travel_id'])->increment('money', $model->money);
             }
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTrailEquipsTable extends Migration
+class CreateTravelPicsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateTrailEquipsTable extends Migration
      */
     public function up()
     {
-        Schema::create('travil_equips', function (Blueprint $table) {
+        Schema::create('travel_pics', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 32)->default('')->comment('名字');
-            $table->integer('hhx_travil_id')->default(0)->comment('旅行Id');
-            $table->smallInteger('status')->default(0)->comment('0购买1已有2需复查3复查4形成结束5不带');
+            $table->bigInteger('TravelId')->default(0)->comment('TravelId');
+            $table->string('ImgUrl', 255)->default('')->comment('ImgUrl');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateTrailEquipsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trail_equips');
+        Schema::dropIfExists('travel_pics');
     }
 }

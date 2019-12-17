@@ -2,18 +2,18 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Daily;
 use App\Models\DirectionLog;
-use App\Models\HhxTravil;
-use App\Models\TravilBill;
+use App\Models\HhxTravel;
+use App\Models\TravelTraffic;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Support\Facades\Log;
 
-class TravilBillController extends Controller
+class TravelTrafficController extends Controller
 {
     use HasResourceActions;
 
@@ -23,11 +23,10 @@ class TravilBillController extends Controller
      * @param Content $content
      * @return Content
      */
-    protected $commName = '旅行账单';
+    protected $commName = '旅行交通';
 
     public function index(Content $content)
     {
-
         return $content
             ->header($this->commName)
             ->description('列表')
@@ -85,20 +84,20 @@ class TravilBillController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new TravilBill);
+        $grid = new Grid(new TravelTraffic);
 
         $grid->id('Id');
-        $grid->direction_id('方向Id')->display(function ($direction_id) {
-            return DirectionLog::whereId($direction_id)->value('illustration');
-        });
-        $grid->column('金额')->display(function () {
-            return DirectionLog::whereId($this->direction_id)->value('money');
-        });
-        $grid->hhx_travil_id('旅行')->display(function ($hhx_travil_id) {
-            return HhxTravil::whereId($hhx_travil_id)->value('name');
+        $grid->img('图片')->image();
+        $grid->name('名字');
+        $grid->illustrate('说明');
+        $grid->money('金额');
+        $grid->ok('Ok')->using([0 => '0k', 2 => 'bad']);
+        $grid->travel_at('旅行时间');
+        $grid->status('状态')->select([0 => '未出发', 1 => '已出发']);
+        $grid->hhx_travel_id('旅行Id')->display(function ($hhx_travel_id) {
+            return HhxTravel::where('id', $hhx_travel_id)->value('name');
         });
         $grid->created_at('创建时间');
-        $grid->updated_at('更新时间');
         $grid->model()->where('status', 0);
         return $grid;
     }
@@ -111,14 +110,19 @@ class TravilBillController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(TravilBill::findOrFail($id));
+        $show = new Show(TravelTraffic::findOrFail($id));
 
         $show->id('Id');
-        $show->direction_id('方向Id')->display(function ($direction_id) {
-            $data = DirectionLog::whereId($direction_id)->value('illustration');
-            return $data;
-        });
-        $show->hhx_travil_id('旅行id');
+        $show->img('图片');
+        $show->name('名字');
+        $show->illustrate('说明');
+        $show->money('金额');
+        $show->ok('Ok')->using([0 => '0k', 2 => 'bad']);
+        $show->travel_at('旅行时间');
+        $show->status('状态')->using([0 => '未出发', 1 => '已出发']);
+        $show->direction_id('Direction id');
+        $show->daily_id('Daily id');
+        $show->hhx_travel_id('Hhx travel id');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -132,17 +136,22 @@ class TravilBillController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new TravilBill);
+        $form = new Form(new TravelTraffic);
+
+        $form->image('img', '图片');
+        $form->text('name', '名字');
+        $form->text('illustrate', '说明');
+        $form->decimal('money', '金额')->default(0.00);
+        $form->select('ok', 'Ok')->options([0 => '0k', 2 => 'bad'])->default(0);
+        $form->date('travel_at', '出发时间')->default(date('Y-m-d'));
+        $form->select('status', '状态')->options([0 => '未出发', 1 => '已出发'])->default(0);
         $data1 = DirectionLog::getIllustration();
         $data1[0] = 0;
-        $form->select('direction_id', 'Direction id')->options($data1)->default(key($data1));
-        $form->select('hhx_travil_id', 'Hhx travil id')->options(HhxTravil::getName());
-        $form->saving(function ($form) {
-            $form->flag = 0;
-            if ($form->model()->id) {
-                $form->flag = 1;
-            }
-        });
+        $form->select('direction_id', '方向LogId')->options($data1)->default(key($data1));
+        $data = Daily::getTimeDay();
+        $data[0] = 0;
+        $form->select('daily_id', '日常Id')->options($data)->default(key($data));
+        $form->select('hhx_travel_id', 'Hhx旅行Id')->options(HhxTravel::getName());
         return $form;
     }
 }

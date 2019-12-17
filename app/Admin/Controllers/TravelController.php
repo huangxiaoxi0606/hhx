@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Travil;
+use App\Models\Travel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class TravilController extends Controller
+class TravelController extends Controller
 {
     use HasResourceActions;
 
@@ -81,7 +81,7 @@ class TravilController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Travil);
+        $grid = new Grid(new Travel);
 
         $grid->id('Id');
         $grid->Author('Author');
@@ -115,7 +115,7 @@ class TravilController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Travil::findOrFail($id));
+        $show = new Show(Travel::findOrFail($id));
 
         $show->id('Id');
         $show->Author('Author');
@@ -142,7 +142,7 @@ class TravilController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Travil);
+        $form = new Form(new Travel);
 
         $form->text('Author', 'Author');
         $form->number('CommentNumber', 'CommentNumber');

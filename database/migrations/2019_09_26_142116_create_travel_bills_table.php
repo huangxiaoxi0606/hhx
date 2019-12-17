@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTravilPicsTable extends Migration
+class CreateTravelBillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateTravilPicsTable extends Migration
      */
     public function up()
     {
-        Schema::create('travil_pics', function (Blueprint $table) {
+        Schema::create('travel_bills', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('TravelId')->default(0)->comment('TravelId');
-            $table->string('ImgUrl',255)->default('')->comment('ImgUrl');
+            $table->integer('direction_id')->default(0)->comment('方向Id');
+            $table->integer('hhx_travel_id')->default(0)->comment('旅行Id');
             $table->timestamps();
         });
+        \Illuminate\Support\Facades\DB::statement("ALTER TABLE `travel_bills` comment '旅行账单'");
     }
 
     /**
@@ -28,6 +29,6 @@ class CreateTravilPicsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('travil_pics');
+        Schema::dropIfExists('travel_bills');
     }
 }
