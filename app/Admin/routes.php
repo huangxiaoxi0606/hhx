@@ -33,7 +33,7 @@ Route::group([
     $router->resource('net_ease_eason', 'NetEaseEasonController');
     $router->resource('net_ease_yeung', 'NetEaseYeungController');
     $router->resource('net_ease_she', 'NetEaseSheController');
-    $router->resource('travil', 'TravilController');
+    $router->resource('travel', 'TravelController');
     $router->resource('daily', 'DailyController');
     $router->resource('interest', 'InterestController');
     $router->resource('interest_log', 'InterestLogController');
@@ -49,10 +49,10 @@ Route::group([
     $router->resource('shoes', 'ShoesController');
     $router->resource('accessories', 'AccessoriesController');
     $router->resource('db_top', 'DbTopController');
-    $router->resource('travil_traffic', 'TravilTrafficController');
-    $router->resource('travil_bill', 'TravilBillController');
-    $router->resource('hhx_travil', 'HhxTravilController');
-    $router->resource('travil_equip', 'TravilEquipController');
+    $router->resource('travel_traffic', 'TravelTrafficController');
+    $router->resource('travel_bill', 'TravelBillController');
+    $router->resource('hhx_travel', 'HhxTravelController');
+    $router->resource('travel_equip', 'TravelEquipController');
     $router->resource('wish_list', 'WishListController');
     $router->resource('db_music_top', 'DbMusicTopController');
     $router->resource('luck', 'LuckController');

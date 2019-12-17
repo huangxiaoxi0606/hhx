@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusToTravilBillsTable extends Migration
+class AddStatusToTravelBillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddStatusToTravilBillsTable extends Migration
      */
     public function up()
     {
-        Schema::table('travil_bills', function (Blueprint $table) {
+        Schema::table('travel_bills', function (Blueprint $table) {
             $table->smallInteger('status')->default(0)->comment('0形程未结束1行程结束');
         });
     }
@@ -25,7 +25,7 @@ class AddStatusToTravilBillsTable extends Migration
      */
     public function down()
     {
-        Schema::table('travil_bills', function (Blueprint $table) {
+        Schema::table('travel_bills', function (Blueprint $table) {
             //
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNoteToHhxTravilsTable extends Migration
+class AddNoteToHhxTravelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddNoteToHhxTravilsTable extends Migration
      */
     public function up()
     {
-        Schema::table('hhx_travils', function (Blueprint $table) {
+        Schema::table('hhx_travels', function (Blueprint $table) {
             $table->text('note');
         });
     }
@@ -25,7 +25,7 @@ class AddNoteToHhxTravilsTable extends Migration
      */
     public function down()
     {
-        Schema::table('hhx_travils', function (Blueprint $table) {
+        Schema::table('hhx_travels', function (Blueprint $table) {
             //
         });
     }

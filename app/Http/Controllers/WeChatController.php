@@ -60,7 +60,7 @@ class WeChatController extends Controller
                             break;
                         }
                         if ($message['Content'] == 'direction_id') {
-                            return "1.love,2.shop,3.product,4.food,5.study,6.travil,7.family,8.coffee,9.extra";
+                            return "1.love,2.shop,3.product,4.food,5.study,6.travel,7.family,8.coffee,9.extra";
                             break;
                         }
                         if ($message['Content'] == 'daily') {

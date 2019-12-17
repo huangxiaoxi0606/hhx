@@ -2,16 +2,19 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\HhxTravil;
-use App\Models\TravilEquip;
+use App\Models\DirectionLog;
+
+use App\Models\HhxTravel;
+use App\Models\TravelBill;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Log;
 
-class TravilEquipController extends Controller
+class TravelBillController extends Controller
 {
     use HasResourceActions;
 
@@ -21,10 +24,11 @@ class TravilEquipController extends Controller
      * @param Content $content
      * @return Content
      */
-    protected $commName = '旅行装备';
+    protected $commName = '旅行账单';
 
     public function index(Content $content)
     {
+
         return $content
             ->header($this->commName)
             ->description('列表')
@@ -82,17 +86,21 @@ class TravilEquipController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new TravilEquip);
+        $grid = new Grid(new TravelBill);
 
         $grid->id('Id');
-        $grid->name('名字');
-        $grid->hhx_travil_id('旅行Id')->display(function ($hhx_travil_id) {
-            return HhxTravil::where('id', $hhx_travil_id)->value('name');
+        $grid->direction_id('方向Id')->display(function ($direction_id) {
+            return DirectionLog::whereId($direction_id)->value('illustration');
         });
-        $grid->status('状态')->select([0 => '购买', '1' => '已有', '2' => '需复查', '3' => '复查', '4' => '形成结束', '5' => '不带']);
+        $grid->column('金额')->display(function () {
+            return DirectionLog::whereId($this->direction_id)->value('money');
+        });
+        $grid->hhx_travel_id('旅行')->display(function ($hhx_travel_id) {
+            return HhxTravel::whereId($hhx_travel_id)->value('name');
+        });
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
-
+        $grid->model()->where('status', 0);
         return $grid;
     }
 
@@ -104,14 +112,16 @@ class TravilEquipController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(TravilEquip::findOrFail($id));
+        $show = new Show(TravelBill::findOrFail($id));
 
         $show->id('Id');
-        $show->name('名字');
-        $show->hhx_travil_id('旅行Id');
-        $show->status('状态')->using([0 => '购买', '1' => '已有', '2' => '需复查', '3' => '复查', '4' => '形成结束', '5' => '不带']);
-        $show->created_at('创建时间');
-        $show->updated_at('更新时间');
+        $show->direction_id('方向Id')->display(function ($direction_id) {
+            $data = DirectionLog::whereId($direction_id)->value('illustration');
+            return $data;
+        });
+        $show->hhx_travel_id('旅行id');
+        $show->created_at('Created at');
+        $show->updated_at('Updated at');
 
         return $show;
     }
@@ -123,12 +133,17 @@ class TravilEquipController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new TravilEquip);
-
-        $form->text('name', 'Name');
-        $form->select('hhx_travil_id', 'Hhx travil id')->options(HhxTravil::getName());
-        $form->select('status', 'Status')->options([0 => '购买', 1 => '已有', 2 => '需复查', 3 => '复查', 4 => '形成结束', 5 => '不带'])->default(1);
-
+        $form = new Form(new TravelBill);
+        $data1 = DirectionLog::getIllustration();
+        $data1[0] = 0;
+        $form->select('direction_id', 'Direction id')->options($data1)->default(key($data1));
+        $form->select('hhx_travel_id', 'Hhx travel id')->options(HhxTravel::getName());
+        $form->saving(function ($form) {
+            $form->flag = 0;
+            if ($form->model()->id) {
+                $form->flag = 1;
+            }
+        });
         return $form;
     }
 }
