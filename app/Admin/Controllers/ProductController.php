@@ -97,6 +97,7 @@ class ProductController extends Controller
         return $grid;
     }
 
+
     /**
      * Make a show builder.
      *
