@@ -53,7 +53,7 @@ class Test extends Command
         $arrs = array_chunk($weibo_pics, 20);
         foreach ($arrs as $ar) {
             foreach ($ar as $pic) {
-                $p = Storage::get($pic);
+                $p = Storage::get('storage/'.$pic);
                 $disk->put($pic, $p);
             }
         }
@@ -61,7 +61,7 @@ class Test extends Command
         $arrs = array_chunk($weibo_pics, 20);
         foreach ($arrs as $ar) {
             foreach ($ar as $pic) {
-                $p = Storage::get($pic);
+                $p = Storage::get('storage/'.$pic);
                 $disk->put($pic, $p);
             }
         }
