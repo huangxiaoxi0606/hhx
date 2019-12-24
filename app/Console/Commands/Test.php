@@ -47,16 +47,24 @@ class Test extends Command
 //        DailyHandler::text();
 //        $data = "兴趣,2,3,shuoming,1";
 //        InterestLog::parseContent($data);
-//        $disk = Storage::disk('qiniu');
+        $disk = Storage::disk('qiniu');
 //        create a file
-//        $weibo_pics = \App\Models\DbMusicTop::pluck('img')->toArray();
-//        $arrs = array_chunk($weibo_pics, 20);
-//        foreach ($arrs as $ar) {
-//            foreach ($ar as $pic) {
-//                $p = Storage::get($pic);
-//                $disk->put($pic, $p);
-//            }
-//        }
+        $weibo_pics = \App\Models\Weibo::where('id', '>', '31216')->pluck('thumbnail_pic')->toArray();
+        $arrs = array_chunk($weibo_pics, 20);
+        foreach ($arrs as $ar) {
+            foreach ($ar as $pic) {
+                $p = Storage::get($pic);
+                $disk->put($pic, $p);
+            }
+        }
+        $weibo_pics = \App\Models\WeiboPics::where('id', '>', '7016')->pluck('url')->toArray();
+        $arrs = array_chunk($weibo_pics, 20);
+        foreach ($arrs as $ar) {
+            foreach ($ar as $pic) {
+                $p = Storage::get($pic);
+                $disk->put($pic, $p);
+            }
+        }
 //        dd('961');
 //        $disk = Storage::disk('public');
 //        $directory = '/weibo_user_h/';
