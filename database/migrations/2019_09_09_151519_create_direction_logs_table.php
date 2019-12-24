@@ -19,7 +19,7 @@ class CreateDirectionLogsTable extends Migration
             $table->integer('daily_id')->default(0)->comment('日常Id');
             $table->smallInteger('status')->default(0)->comment('方向0减少1增加');
             $table->smallInteger('ok')->default(0)->comment('0ok1bad');
-            $table->string('illustration', 16)->default('')->comment('说明');
+            $table->string('illustration', 32)->default('')->comment('说明');
             $table->decimal('money', 10, 2)->default(0.0)->comment("金额");
             $table->smallInteger('week_day')->default(0)->comment('星期几');
             $table->timestamps();

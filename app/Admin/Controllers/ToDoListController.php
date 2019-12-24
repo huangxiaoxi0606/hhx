@@ -83,7 +83,6 @@ class ToDoListController extends Controller
     protected function grid()
     {
         $grid = new Grid(new ToDoList);
-
         $grid->id('Id');
         $grid->title('标题');
         $grid->desc('形容')->limit(30);

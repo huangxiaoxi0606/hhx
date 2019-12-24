@@ -74,6 +74,7 @@ class WeiboPic implements ShouldQueue
                 }
             }
         });
+        Log::info('2019');
         if (count($arr) > 0) {
             Log::info("weibopic start");
             $disk = Storage::disk('qiniu');
