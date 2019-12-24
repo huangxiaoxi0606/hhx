@@ -52,7 +52,7 @@ class Test extends Command
 //        dd($hh);
         $disk = Storage::disk('qiniu');
 //        create a file
-        $weibo_pics = \App\Models\Weibo::where('id', '>', '31216')->pluck('thumbnail_pic')->toArray();
+        $weibo_pics = \App\Models\Weibo::where('id', '>', '31216')->whereNotNull('thumbnail_pic')->pluck('thumbnail_pic')->toArray();
         $arrs = array_chunk($weibo_pics, 20);
         foreach ($arrs as $ar) {
             foreach ($ar as $pic) {
@@ -60,7 +60,7 @@ class Test extends Command
                 $disk->put($pic, $p);
             }
         }
-        $weibo_pics = \App\Models\WeiboPics::where('id', '>', '7016')->pluck('url')->toArray();
+        $weibo_pics = \App\Models\WeiboPics::where('id', '>', '7016')->whereNotNull('url')->pluck('url')->toArray();
         $arrs = array_chunk($weibo_pics, 20);
         foreach ($arrs as $ar) {
             foreach ($ar as $pic) {
