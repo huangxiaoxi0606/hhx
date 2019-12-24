@@ -47,13 +47,16 @@ class Test extends Command
 //        DailyHandler::text();
 //        $data = "兴趣,2,3,shuoming,1";
 //        InterestLog::parseContent($data);
+//
+//        $hh = Storage::get('weibo_pic_h/15706120181.jpg');
+//        dd($hh);
         $disk = Storage::disk('qiniu');
 //        create a file
         $weibo_pics = \App\Models\Weibo::where('id', '>', '31216')->pluck('thumbnail_pic')->toArray();
         $arrs = array_chunk($weibo_pics, 20);
         foreach ($arrs as $ar) {
             foreach ($ar as $pic) {
-                $p = Storage::get('/storage/'.$pic);
+                $p = Storage::get($pic);
                 $disk->put($pic, $p);
             }
         }
@@ -61,7 +64,7 @@ class Test extends Command
         $arrs = array_chunk($weibo_pics, 20);
         foreach ($arrs as $ar) {
             foreach ($ar as $pic) {
-                $p = Storage::get('/storage/'.$pic);
+                $p = Storage::get($pic);
                 $disk->put($pic, $p);
             }
         }
