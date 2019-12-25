@@ -69,8 +69,8 @@ class WeiboPic implements ShouldQueue
                     $client = new Client(['verify' => false]);  //忽略SSL错误
                     $client->get($url, ['save_to' => public_path($filename)]);
                     $pic->url = 'weibo_pic_f/' . $e;
-                    $pic->save();
                     $arr[] = $pic->url;
+                    $pic->save();
                 }
             }
         });
