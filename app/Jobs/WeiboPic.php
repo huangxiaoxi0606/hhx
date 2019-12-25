@@ -38,7 +38,7 @@ class WeiboPic implements ShouldQueue
         //微博表中图片更新
         $num = 0;
         $arr = [];
-        Weibo::whereNull('updated_at')->whereNotNull('thumbnail_pic')->select('id', 'thumbnail_pic')->chunk(100, function ($weibos) use ($num) {
+        Weibo::whereNull('updated_at')->whereNotNull('thumbnail_pic')->select('id', 'thumbnail_pic')->chunk(100, function ($weibos) use ($num, $arr) {
             foreach ($weibos as $weibo) {
                 if ($weibo->thumbnail_pic) {
                     $url = $weibo->thumbnail_pic;
@@ -59,7 +59,7 @@ class WeiboPic implements ShouldQueue
                 }
             }
         });
-        WeiboPics::whereNull('updated_at')->select('id', 'url')->chunk(100, function ($weiboPic) use ($num) {
+        WeiboPics::whereNull('updated_at')->select('id', 'url')->chunk(100, function ($weiboPic) use ($num, $arr) {
             foreach ($weiboPic as $pic) {
                 if ($pic->url) {
                     $url = $pic->url;
@@ -74,7 +74,7 @@ class WeiboPic implements ShouldQueue
                 }
             }
         });
-        Log::info('2019');
+
         if (count($arr) > 0) {
             Log::info("weibopic start");
             $disk = Storage::disk('qiniu');

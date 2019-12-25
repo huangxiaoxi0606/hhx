@@ -14,7 +14,7 @@ class WeiboUser extends Model
     public function saveData($data_us)
     {
         $data = array_only($data_us, ['avatar_hd', 'cover_image_phone', 'description', 'follow_count', 'followers_count', 'gender', 'id', 'mbrank', 'mbtype', 'screen_name', 'statuses_count']);
-        $weibo_user = $this->SearchData($data);
+        $weibo_user = $this->searchData($data);
         $us = [
             'status' => 0,
             //新用户 小于的都保存
@@ -42,7 +42,7 @@ class WeiboUser extends Model
     }
 
 
-    public function SearchData($data)
+    public function searchData($data)
     {
         $where = [
             'weibo_id' => $data['id'],
