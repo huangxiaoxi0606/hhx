@@ -105,7 +105,9 @@ class DirectionLogController extends Controller
             return $box;
         });
         $grid->id('Id');
-        $grid->direction_id('Direction id')->using(Direction::getData());
+        $grid->direction_id('Direction id')->display(function ($direction_id) {
+            return config('hhx.direction')[$direction_id];
+        });
         $grid->daily_id('Daily id');
         $grid->status('状态')->using([0 => '减少', 1 => '增加']);
         $grid->ok('Ok')->using([0 => 'good', 1 => 'bad']);
