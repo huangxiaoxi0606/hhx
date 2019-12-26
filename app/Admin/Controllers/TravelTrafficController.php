@@ -138,7 +138,7 @@ class TravelTrafficController extends Controller
     {
         $form = new Form(new TravelTraffic);
 
-        $form->image('img', '图片');
+        $form->image('img', '图片')->move('travel/img');
         $form->text('name', '名字');
         $form->text('illustrate', '说明');
         $form->decimal('money', '金额')->default(0.00);
