@@ -126,7 +126,7 @@ class AssetCommonController extends Controller
         $form = new Form(new Asset);
 
         $form->text('name', '名字');
-        $form->image('pic', '图片')->move('public/asset');
+        $form->image('pic', '图片')->move('public/asset')->uniqueName();
         $form->select('mold', '所属')->options(Asset::$type[$this->str]);
         $form->hidden('type', '类型')->value($this->str);
 
