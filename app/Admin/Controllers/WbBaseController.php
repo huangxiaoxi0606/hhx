@@ -153,7 +153,7 @@ class WbBaseController extends Controller
         if ($this->wei_id) {
             $grid->model()->where('weibo_id', $this->wei_id);
         }
-        $grid->model()->where('is_flag', '=', 0)->orderBy('weibo_info_id', 'desc');
+        $grid->model()->where('is_flag', 0)->orderBy('weibo_created_at', 'desc');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
         $grid->exporter(new WeiboExporter());

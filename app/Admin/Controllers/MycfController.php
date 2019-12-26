@@ -6,7 +6,7 @@ class MycfController extends WbBaseController
 {
     public function __construct()
     {
-        $this->fileName = 'My Love';
-        $this->wei_id = '1751035982';
+        $this->fileName = '暮以成风';
+        $this->wei_id = '1698855832';
     }
 }
