@@ -97,7 +97,7 @@ class WbBaseController extends Controller
                         <p class="text-success daily-text">' . $user["description"] . '</p>
                     </div>
                     <div class ="hhx" style="float: left">
-                        <img src="' . config('hhx.qny.url') . $user["avatar_hd"] . '" class="img-rounded" style="width:20%;">
+                        <img src="' . config('hhx.qny.url').'/' . $user["avatar_hd"] . '" class="img-rounded" style="width:20%;">
                     </div>';
         });
         $grid->id('Id');
@@ -118,7 +118,7 @@ class WbBaseController extends Controller
                     $data_u[$num] = '<img src=" ' .$base_url.'/' . $pic->url . '">';
                 }
             } elseif ($model->pic_num == 1) {
-                $data_u['1'] = '<img src=" ' .$base_url .$model->thumbnail_pic . '">';
+                $data_u['1'] = '<img src=" ' .$base_url .'/'.$model->thumbnail_pic . '">';
             } else {
                 $data_u['pic'] = '一张图片都没有';
             }
