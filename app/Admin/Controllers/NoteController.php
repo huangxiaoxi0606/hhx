@@ -84,7 +84,6 @@ class NoteController extends Controller
 
         $grid->id('Id');
         $grid->name('名字');
-        $grid->content('内容');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
@@ -103,7 +102,7 @@ class NoteController extends Controller
 
         $show->id('Id');
         $show->name('名字');
-        $show->content('内容');
+        $show->content('内容')->unescape();
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
 
