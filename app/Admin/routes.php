@@ -58,5 +58,6 @@ Route::group([
     $router->resource('luck', 'LuckController');
     $router->resource('yongle', 'YongLeController');
     $router->resource('hhx_concert', 'HhxConcertController');
+    $router->resource('note', 'NoteConcertController');
     $router->any('direction_mouth', 'DirectionWeekController@mouth');
 });
