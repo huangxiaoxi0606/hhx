@@ -15,7 +15,7 @@ class CreateWishListsTable extends Migration
     {
         Schema::create('wish_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('content',128)->default('')->comment('清单内容');
+            $table->string('content', 128)->default('')->comment('清单内容');
             $table->smallInteger('status')->default(0)->comment('0未完成1已完成2完成不了');
 
             $table->timestamps();
