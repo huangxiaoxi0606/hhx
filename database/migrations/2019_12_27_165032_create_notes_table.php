@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLucksTable extends Migration
+class CreateNotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateLucksTable extends Migration
      */
     public function up()
     {
-        Schema::create('lucks', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('intro', 64)->default('')->comment('简述');
+            $table->string('name', 32)->default('')->comment('名字');
             $table->text('content')->comment('详述');
             $table->timestamps();
         });
-        \Illuminate\Support\Facades\DB::statement("ALTER TABLE `lucks` comment '人生幸运'");
+        \Illuminate\Support\Facades\DB::statement("ALTER TABLE `notes` comment 'notes'");
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateLucksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lucks');
+        Schema::dropIfExists('notes');
     }
 }
