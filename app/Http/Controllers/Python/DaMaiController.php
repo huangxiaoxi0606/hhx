@@ -8,7 +8,10 @@ use App\Http\Controllers\Controller;
 
 class DaMaiController extends Controller
 {
-    public function getData(){
-
+    public function getData()
+    {
+        $datas = Damai::query()->paginate(20);
+        $data['data'] = $datas;
+        return view('Home.DaMai.list', $data);
     }
 }
