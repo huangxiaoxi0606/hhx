@@ -120,7 +120,7 @@ class NoteController extends Controller
         $form = new Form(new Notes);
 
         $form->text('name', '名字');
-        $form->textarea('content', '内容');
+        $form->editor('content', '内容');
 
         return $form;
     }
