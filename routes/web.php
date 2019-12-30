@@ -30,6 +30,8 @@ Route::get('/daily', 'Home\DailyController@index');
 Route::get('/daily_week', 'Home\DailyController@week');
 Route::any('/wechat', 'WeChatController@serve');
 Route::get('/get_data', 'Python\DaMaiController@getData');
+Route::get('/travel_list', 'Hhx\TravelController@getList');
+Route::get('/travel_intro/{id}', 'Hhx\TravelController@getIntro');
 Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
     Route::get('/user', function () {
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
