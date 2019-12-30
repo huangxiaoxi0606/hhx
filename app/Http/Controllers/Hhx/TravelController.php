@@ -21,9 +21,8 @@ class TravelController extends Controller
         return view('Home.Hhx.travel_list', $data);
     }
 
-    public function getIntro(Request $request)
+    public function getIntro(Request $request, $id)
     {
-        $id = $request->get('id');
         $datas = HhxTravel::whereId($id)->first();
         $data['data'] = $datas;
         return view('Home.Hhx.travel_intro', $data);

@@ -1,0 +1,43 @@
+.div-con{
+    width: 1200px;
+    position:relative ;
+    margin: 0 auto;
+}
+
+.div-list{
+    list-style: none;
+}
+.div-li{
+    width: 100%;
+    text-align: left;
+    padding: 24px;
+}
+
+.div-li p{
+    display:inline;
+    float: left;
+    padding: 20px;
+    margin: 1em;
+    font-size: large;
+}
+
+.div-intro{
+    width: 1200px;
+    position:relative ;
+    margin: 0 auto;
+    top: 30px;
+}
+.intro-name ,.intro-topic{
+    text-align: center;
+}
+.intro-topic{
+    font-size: large;
+}
+.intro-intro{
+    text-align: center;
+}
+.intro-intro p{
+    display: inline;
+    padding: 10px;
+}
+
