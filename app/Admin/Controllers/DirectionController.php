@@ -90,6 +90,7 @@ class DirectionController extends Controller
         $grid->status('Status')->using([0 => '打开', 1 => '关闭']);
         $grid->order_num('Order num');
         $grid->all_num('All num');
+        $grid->this_year('This year');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
 
