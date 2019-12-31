@@ -17,7 +17,7 @@ class Direction extends Model
 
     public function getThisYearAttribute()
     {
-        $l = DirectionLog::whereDirectionId($this->id)->where('created_at', '>', '2020-01-01')->get();
+        $l = DirectionLog::whereDirectionId($this->id)->where('created_at', '>', '2019-12-01');
         return $l->whereStatus(0)->sum('money') - $l->whereStatus(1)->sum('money');
     }
 }
