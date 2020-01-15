@@ -46,7 +46,6 @@ class WeiboUserPic implements ShouldQueue
                 $filename = 'storage/weibo_user_t/' . $e;
                 $client = new Client(['verify' => false]);  //忽略SSL错误
                 $client->get($url, ['save_to' => public_path($filename)]);
-                $arr[] = $filename;
                 $url2 = $user->cover_image_phone;
                 $num2 = $num2 - 1;
                 $e2 = time() . $num2 . '.jpg';
