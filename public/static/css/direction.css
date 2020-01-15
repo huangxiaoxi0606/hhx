@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.div-main{
+    width:800px;
+    /*background: #00a65a;*/
+    margin: 0 auto;
+    height: 300px;
+}
+.left,.right{
+    height: 300px;
+}
+.left{
+    width:20%;
+    background: #0d6aad;
+    float: left;
+}
+.right{
+    width:80%;
+    float: right;
+    background: #00a65a;
+}
