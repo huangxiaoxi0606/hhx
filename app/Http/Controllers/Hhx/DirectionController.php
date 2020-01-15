@@ -16,9 +16,8 @@ class DirectionController extends Controller
 {
     public function getDirection(Request $request)
     {
-        $datas = Direction::query()->get();
-        $data['data'] = $datas;
-        return view('Home.Hhx.direction', $data);
+        $data = Direction::query()->get();
+        return view('Home.Hhx.direction', ['data'=>$data]);
     }
 
 }

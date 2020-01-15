@@ -38,6 +38,6 @@ class Hhx extends Command
      */
     public function handle()
     {
-        \App\Handlers\DailyHandler::sendMessage();
+        \App\Handlers\DailyHandler::getHhxWeek();
     }
 }
