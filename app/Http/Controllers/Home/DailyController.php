@@ -19,15 +19,17 @@ use Illuminate\Support\Facades\Request;
 
 class DailyController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $data = DailyHandler::getData();
-        return view('Emails.Daily',$data);
+        return view('Emails.Daily', $data);
     }
 
 
-    public function week(){
+    public function week()
+    {
         $data = DailyHandler::getWeekData();
-        return view('Emails.Week',$data);
+        return view('Emails.Week', $data);
     }
 
 }

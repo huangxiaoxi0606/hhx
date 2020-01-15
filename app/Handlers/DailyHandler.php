@@ -19,37 +19,27 @@ use EasyWeChat\Kernel\Messages\Text;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-
 class DailyHandler
 {
     public static function getData()
     {
         $daily = Daily::orderBy('id', 'desc')->first();
-        $direction_logs = DirectionLog::where('daily_id', $daily->id)->get();
-        $interest_logs = InterestLog::where('daily_id', $daily->id)->get();
         $yesterDate = Carbon::yesterday()->toDateString();
         $week = date("w", time() - 36400);
         $weeks = [0 => '日', 1 => '一', 2 => '二', 3 => '三', 4 => '四', 5 => '五', 6 => '六'];
-        $weibos = Weibo::query()->where('weibo_created_at', '>', $yesterDate)->where('is_flag', 0)->get()->toArray();
-        if ($weibos) {
-            foreach ($weibos as $key => $weibo) {
-                if ($weibo['pic_num'] > 1) {
-                    $pics = WeiboPics::query()->where('weibo_info_id', $weibo['weibo_info_id'])->limit($weibo['pic_num'])->pluck('url')->toArray();
-                    $weibos[$key]['pics'] = $pics;
-                } else {
-                    $weibos[$key]['pics'] = '';
-                }
-            }
-        }
-        $data = [
+        $p = WeiboPics::query()->get();
+        $ws = Weibo::where('weibo_created_at', '>', $yesterDate)->whereIsFlag(0)->get()->map(function ($i) use ($p) {
+            $i->pics = $i->pic_num > 1 ? $p->where('weibo_info_id', $i->weibo_info_id)->pluck('url')->toArray() : '';
+            return $i;
+        });
+        return [
             'daily' => $daily,
-            'direction_logs' => $direction_logs,
-            'interest_logs' => $interest_logs,
+            'direction_logs' => DirectionLog::where('daily_id', $daily->id)->get(),
+            'interest_logs' => InterestLog::where('daily_id', $daily->id)->get(),
             'week' => $weeks[$week],
             'yesterDate' => $yesterDate,
-            'weibos' => $weibos
+            'weibos' => $ws->all(),
         ];
-        return $data;
     }
 
     public static function getHhx()
@@ -66,8 +56,8 @@ class DailyHandler
 
     public static function getWeekData()
     {
-        $week_again = date("Y-m-d", strtotime("this week"));
-        $dailys = Daily::where('created_at', '>', $week_again)->get();
+        $again = date("Y-m-d", strtotime("this week"));
+        $dailys = Daily::where('created_at', '>', $again)->get();
         $daily_ids = $dailys->pluck('id')->toArray();
         $daily_summary = $dailys->pluck('summary')->toArray();
         $daily_grow_up = $dailys->pluck('grow_up')->toArray();
@@ -76,19 +66,15 @@ class DailyHandler
         $directionLogs = DirectionLog::whereIn('daily_id', [$daily_ids])->get();
         $directionSum = $directionLogs->sum('money');
         $interest_logs = InterestLog::whereIn('daily_id', [$daily_ids])->get();
-        $weibos = Weibo::where('weibo_created_at', '>', $week_again)->where('is_flag', 0)->get()->toArray();
-        if ($weibos) {
-            foreach ($weibos as $key => $weibo) {
-                if ($weibo['pic_num'] > 1) {
-                    $pics = WeiboPics::where('weibo_info_id', $weibo['weibo_info_id'])->limit($weibo['pic_num'])->pluck('url')->toArray();
-                    $weibos[$key]['pics'] = $pics;
-                } else {
-                    $weibos[$key]['pics'] = '';
-                }
-            }
-        }
-        $data = [
-            'week_again' => $week_again,
+//        $again = '2019-12-20';
+        $p = WeiboPics::query()->get();
+        $ws = Weibo::where('weibo_created_at', '>', $again)->whereIsFlag(0)->get()->map(function ($i) use ($p) {
+            $i->pics = $i->pic_num > 1 ? $p->where('weibo_info_id', $i->weibo_info_id)->pluck('url')->toArray() : '';
+            return $i;
+        });
+
+        return [
+            'week_again' => $again,
             'dailys' => $dailys,
             'direction_logs' => $directionLogs,
             'directionSum' => $directionSum,
@@ -97,9 +83,8 @@ class DailyHandler
             'daily_grow_up' => $daily_grow_up,
             'daily_Img' => $daily_Img,
             'daily_collocation' => $daily_collocation,
-            'weibos' => $weibos,
+            'weibos' => $ws->all(),
         ];
-        return $data;
     }
 
     public static function getHhxWeek()
@@ -121,8 +106,7 @@ class DailyHandler
         $app = app('wechat.official_account');
         $message = new Text('Hello world!');
         $openId = 'oUCgBwP5gOn79QGN60Fb9GS19kwk';
-        $result = $app->customer_service->message($message)->to($openId)->send();
-        return $result;
+        return $app->customer_service->message($message)->to($openId)->send();
     }
 
     /**
@@ -130,18 +114,17 @@ class DailyHandler
      */
     public static function updateStock()
     {
-        $directions = Direction::query()->get();
         $last_month = strtotime("-1 month");
         $last_month_first = date("Y-m-01 00:00:00", $last_month);//上个月第一天`
         $now = Carbon::now();
-        foreach ($directions as $v) {
-            $used = DirectionLog::whereBetween('created_at', [$last_month_first, $now])->where('direction_id', $v->id)->sum('money');
-            $v->stock = $v->stock - $used + config($v->name);
-            $v->save();
-        }
+        $direction_logs = DirectionLog::whereBetween('created_at', [$last_month_first, $now])->get();
+        Direction::query()->get()->map(function ($item, $key) use ($direction_logs) {
+            $used = $direction_logs->where('direction_id', $item->id)->sum('money');
+            $item->stock = $item->stock - $used + config($item->name);
+            $item->save();
+        });
         Log::info(date('Y-m-d') . 'stock its ok');
     }
-
 
 //    static public function getMouth(){
 //        $now = Carbon::now();

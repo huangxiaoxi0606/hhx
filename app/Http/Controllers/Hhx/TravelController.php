@@ -16,16 +16,14 @@ class TravelController extends Controller
 {
     public function getList(Request $request)
     {
-        $datas = HhxTravel::query()->paginate(20);
-        $data['data'] = $datas;
-        return view('Home.Hhx.travel_list', $data);
+        $data = HhxTravel::query()->paginate(20);
+        return view('Home.Hhx.travel_list', ['data'=>$data]);
     }
 
     public function getIntro(Request $request, $id)
     {
-        $datas = HhxTravel::whereId($id)->first();
-        $data['data'] = $datas;
-        return view('Home.Hhx.travel_intro', $data);
+        $data = HhxTravel::whereId($id)->first();
+        return view('Home.Hhx.travel_intro', ['data'=>$data]);
     }
 
 }
