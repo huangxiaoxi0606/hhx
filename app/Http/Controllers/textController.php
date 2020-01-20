@@ -35,7 +35,7 @@ class textController extends Controller
     public function index(Request $request)
     {
 //        $daily = Daily::orderBy('id', 'desc')->first()->money;
-        phpinfo();
+//        phpinfo();
 //        dd('2');
 //        Log::info(json_encode($request->all()));
 //
@@ -52,8 +52,9 @@ class textController extends Controller
 //                'yesterDate'=>$yesterDate,
 //            ];
 //            return view('Emails.Daily',$data);
-        $data = '234';
-        var_dump($data);
+//        $data = '234';
+//        var_dump($data);
+        dd(app('hhx')->getLove());
     }
 
 

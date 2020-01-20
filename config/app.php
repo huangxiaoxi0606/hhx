@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 //        Freyo\Flysystem\QcloudCOSv5\ServiceProvider::class,
+        App\Providers\HhxServiceProvider::class,
 
     ],
 
